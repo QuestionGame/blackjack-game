@@ -1,0 +1,12 @@
+.scoreContainer {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #eef;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.scoreContainer p {
+  margin: 5px 0;
+  font-weight: bold;
+}

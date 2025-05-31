@@ -1,0 +1,43 @@
+.actionsContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.actionButton, .newGameButton {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.actionButton {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.actionButton:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.actionButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.newGameButton {
+  background-color: #008CBA; /* Blue */
+  color: white;
+}
+
+.newGameButton:hover:not(:disabled) {
+  background-color: #007ba7;
+}
+
+.newGameButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

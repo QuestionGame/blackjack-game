@@ -1,0 +1,10 @@
+.messageContainer {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff3cd; /* Light yellow for info */
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
