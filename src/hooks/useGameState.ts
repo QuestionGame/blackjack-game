@@ -14,7 +14,13 @@ const initialState: GameStateType = {
   message: 'Натисніть "Нова гра" для початку.',
 };
 
+// Експортуємо тип для значення, яке повертає хук
+export type UseGameStateHookType = ReturnType<typeof useGameState>;
+
 export const useGameState = () => {
+  // ... (весь попередній код useGameState залишається тут без змін) ...
+  // Я не буду його дублювати тут, щоб зекономити місце, він був правильним.
+  // Просто переконайтесь, що функція useGameState визначена як і раніше.
   const [deck, setDeck] = useState<CardType[]>(initialState.deck);
   const [playerHand, setPlayerHand] = useState<PlayerHandType>(initialState.playerHand);
   const [dealerHand, setDealerHand] = useState<PlayerHandType>(initialState.dealerHand);
@@ -89,12 +95,12 @@ export const useGameState = () => {
 
   useEffect(() => {
     if (gamePhase === 'dealerTurn') {
-      let currentDealerHand = [...dealerHand]; // Робимо копію для маніпуляцій
-      let currentDeck = [...deck]; // Робимо копію
+      let currentDealerHand = [...dealerHand]; 
+      let currentDeck = [...deck]; 
       let currentDealerScore = calculateHandValue(currentDealerHand);
 
       const dealerPlayTimeout = setTimeout(() => {
-        let tempDeck = currentDeck; // Використовуємо копії
+        let tempDeck = currentDeck; 
         let tempDealerHand = currentDealerHand;
         let tempDealerScore = currentDealerScore;
 
@@ -108,7 +114,7 @@ export const useGameState = () => {
         
         setDealerHand(tempDealerHand);
         setDealerScore(tempDealerScore);
-        setDeck(tempDeck); // Оновлюємо стан колоди
+        setDeck(tempDeck);
 
         if (tempDealerScore > BLACKJACK_VALUE) {
           setMessage('Дилер перебрав! Ви виграли!');
@@ -124,7 +130,7 @@ export const useGameState = () => {
 
       return () => clearTimeout(dealerPlayTimeout);
     }
-  }, [gamePhase, dealerHand, playerScore, deck]); // Додав deck сюди, бо він використовується для взяття карт дилером
+  }, [gamePhase, dealerHand, playerScore, deck]);
 
   return {
     playerHand,
@@ -136,5 +142,7 @@ export const useGameState = () => {
     startGame,
     playerHit,
     playerStand,
+    // Не забудьте повернути всі необхідні поля
+    deck // Повертаємо колоду, якщо вона десь потрібна (може і ні)
   };
 };

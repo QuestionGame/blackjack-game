@@ -1,0 +1,166 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: calc(100vh - 120px); -- Цей рядок можна прибрати або змінити на height: 100%; */
+  height: 100%; /* Займає всю висоту батьківського .main-content */
+  width: 100%; /* Займає всю ширину */
+  text-align: center;
+  padding: 2rem;
+  color: #fff; 
+  position: relative; 
+  overflow: hidden; 
+  /* border-radius: 8px; -- Якщо це не потрібно для повноекранного вигляду */
+}
+/* Псевдоелемент для фону з градієнтом поверх зображення */
+.homeContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('C:\Users\Zheka\OneDrive\Desktop\blackjack\blackjack-game\public\cards\background\casino_blur.jpg'); /* Шлях від папки public */
+  background-size: cover;
+  background-position: center;
+  z-index: -2; /* Позаду основного контенту та градієнту */
+}
+
+.homeContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.85)); /* Затемнюючий градієнт */
+  z-index: -1; /* Між фоновим зображенням та контентом */
+}
+
+.header {
+  margin-bottom: 2.5rem;
+  z-index: 1; /* Щоб був над псевдоелементами */
+}
+
+.title {
+  font-size: 2.8rem; /* Трохи зменшив для кращої адаптивності */
+  font-weight: bold;
+  color: #ffc107; /* Золотистий */
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  font-size: 1.3rem; /* Трохи зменшив */
+  color: #f0f0f0; /* Світліший сірий */
+  margin-bottom: 2rem;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 320px; /* Трохи зменшив для кращого вигляду */
+  z-index: 1; /* Щоб був над псевдоелементами */
+}
+
+.navButton {
+  display: block;
+  padding: 0.8rem 1.5rem; /* Трохи змінив падінги */
+  font-size: 1.05rem; /* Трохи змінив розмір шрифту */
+  font-weight: 600;
+  color: #212529;
+  background-color: #ffc107; /* Золотистий */
+  border: none;
+  border-radius: 25px; /* Округлі кнопки */
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+}
+
+.navButton:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 8px rgba(0,0,0,0.3);
+}
+
+.navButton:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.playButton {
+  background-color: #28a745; /* Зелений для кнопки "Грати" */
+  color: white;
+}
+.playButton:hover {
+  background-color: #218838;
+}
+
+
+.rulesPreview {
+  background-color: rgba(20, 20, 20, 0.7); /* Темніший, більш прозорий фон */
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 550px; /* Трохи зменшив */
+  width: 90%;
+  z-index: 1; /* Щоб був над псевдоелементами */
+  border: 1px solid rgba(255, 193, 7, 0.2); /* Легка золотиста рамка */
+}
+
+.rulesPreview h2 {
+  font-size: 1.4rem; /* Трохи зменшив */
+  color: #ffc107;
+  margin-bottom: 0.8rem;
+}
+
+.rulesPreview p {
+  font-size: 0.95rem; /* Трохи зменшив */
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #e0e0e0; /* Світліший текст для кращого контрасту */
+}
+
+.moreRulesLink {
+  color: #ffc107;
+  font-weight: bold;
+  text-decoration: none; /* Забрав підкреслення, кнопковий стиль краще */
+  display: inline-block; /* Для падінгів */
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #ffc107;
+  border-radius: 15px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.moreRulesLink:hover {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+/* Адаптивність */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  .navigation {
+    max-width: 280px;
+  }
+  .navButton {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
+  .rulesPreview h2 {
+    font-size: 1.2rem;
+  }
+  .rulesPreview p {
+    font-size: 0.9rem;
+  }
+}

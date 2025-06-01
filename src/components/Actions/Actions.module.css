@@ -1,43 +1,58 @@
 .actionsContainer {
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   justify-content: center;
-  gap: 10px;
-}
-
-.actionButton, .newGameButton {
-  padding: 10px 20px;
-  font-size: 1em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  gap: 15px; /* Збільшений проміжок */
+  padding: 15px;
+  flex-wrap: wrap; /* Дозволяє кнопкам переноситись на малих екранах */
 }
 
 .actionButton {
-  background-color: #4CAF50; /* Green */
+  padding: 12px 25px; /* Збільшені кнопки */
+  font-size: 1.1em; /* Трохи більший шрифт */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
   color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 .actionButton:hover:not(:disabled) {
-  background-color: #45a049;
+  transform: translateY(-1px); /* Невеликий ефект при наведенні */
 }
 
-.actionButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.actionButton:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+
+.hitButton {
+  background-color: #28a745; /* Зелений */
+}
+.hitButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.standButton {
+  background-color: #ffc107; /* Жовтий */
+  color: #212529;
+}
+.standButton:hover:not(:disabled) {
+  background-color: #e0a800;
 }
 
 .newGameButton {
-  background-color: #008CBA; /* Blue */
-  color: white;
+  background-color: #007bff; /* Синій */
 }
-
 .newGameButton:hover:not(:disabled) {
-  background-color: #007ba7;
+  background-color: #0069d9;
 }
 
-.newGameButton:disabled {
-  background-color: #ccc;
+.actionButton:disabled {
+  background-color: #6c757d; /* Сірий для неактивних */
   cursor: not-allowed;
+  opacity: 0.7;
 }

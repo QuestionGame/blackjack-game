@@ -1,26 +1,22 @@
 import React from 'react';
+import { useGame } from '../../context/GameContext';
 import styles from './Actions.module.css';
 
-interface ActionsProps {
-  onHit: () => void;
-  onStand: () => void;
-  onNewGame: () => void;
-  gamePhase: string; // 'playerTurn', 'gameOver', 'initial'
-}
+const Actions: React.FC = () => {
+  const { playerHit, playerStand, startGame, gamePhase } = useGame();
 
-const Actions: React.FC<ActionsProps> = ({ onHit, onStand, onNewGame, gamePhase }) => {
   const playerCanAct = gamePhase === 'playerTurn';
   const canStartNewGame = gamePhase === 'gameOver' || gamePhase === 'initial';
 
   return (
     <div className={styles.actionsContainer}>
-      <button onClick={onHit} disabled={!playerCanAct} className={styles.actionButton}>
-        Взяти ще (Hit)
+      <button onClick={playerHit} disabled={!playerCanAct} className={`${styles.actionButton} ${styles.hitButton}`}>
+        Взяти ще
       </button>
-      <button onClick={onStand} disabled={!playerCanAct} className={styles.actionButton}>
-        Досить (Stand)
+      <button onClick={playerStand} disabled={!playerCanAct} className={`${styles.actionButton} ${styles.standButton}`}>
+        Досить
       </button>
-      <button onClick={onNewGame} disabled={!canStartNewGame} className={styles.newGameButton}>
+      <button onClick={startGame} disabled={!canStartNewGame} className={`${styles.actionButton} ${styles.newGameButton}`}>
         Нова гра
       </button>
     </div>

@@ -1,0 +1,60 @@
+.rulesContainer {
+  max-width: 800px;
+  margin: 0 auto; /* Центрування */
+  padding: 2rem; /* Збільшимо відступи */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  line-height: 1.7;
+  color: #444;
+  width: 100%; /* Щоб контейнер міг займати ширину батька */
+  /* height: 100%; -- Не завжди потрібно, якщо контенту достатньо або є скрол */
+  overflow-y: auto; /* Додаємо скрол, якщо контенту багато */
+  /* Для того, щоб сторінка правил займала весь екран, якщо контенту мало: */
+  display: flex; 
+  flex-direction: column;
+  /* min-height: calc(100vh - 80px); -- Приблизна висота мінус навігація, якщо вона є зверху */
+}
+.backButton {
+  display: inline-block;
+  margin: 1.5rem auto 0; /* Відступ зверху, авто для центрування */
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #6c757d; /* Сірий */
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+.rulesContainer h1 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 1.5rem;
+}
+
+.rulesContainer h2 {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.rulesContainer ul, .rulesContainer ol {
+  padding-left: 20px;
+}
+
+.rulesContainer li {
+  margin-bottom: 0.5rem;
+}
+
+.rulesContainer strong {
+  color: #28a745; /* Зелений для акцентів */
+}

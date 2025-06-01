@@ -1,0 +1,12 @@
+.gamePageWrapper {
+  flex-grow: 1; /* Займає весь доступний простір в main-content */
+  display: flex;
+  flex-direction: column; /* GameTable буде всередині */
+  align-items: center;
+  justify-content: center; /* Центрування GameTable, якщо він менший */
+  padding: 0; /* Без внутрішніх відступів, щоб колір столу був на весь екран */
+  width: 100%;
+  height: 100%;
+  transition: background-color 0.5s ease;
+  overflow: hidden; /* Щоб GameTable не викликав скрол на цьому рівні */
+}

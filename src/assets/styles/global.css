@@ -1,25 +1,57 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* align to top for longer content */
-  min-height: 100vh;
-  color: #333;
+  padding: 0;
 }
 
-#root {
+html, body, #root {
+  height: 100%;
   width: 100%;
-  max-width: 800px; /* Max width for the game container */
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Запобігає появі скролбарів на body */
 }
 
-h1, h2, h3 {
-  text-align: center;
-  color: #333;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #343a40;
+  line-height: 1.6;
+  /* Фоновий градієнт для всього додатку, якщо сторінки не перекривають його повністю */
+  background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+}
+
+/* Головний контейнер додатку */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Займає всю висоту */
+  width: 100%;  /* Займає всю ширину */
+}
+
+/* main-content тепер не обмежує ширину, а дозволяє сторінці самій це робити */
+.main-content {
+  flex-grow: 1;
+  display: flex; /* Дозволяє дочірнім елементам (сторінкам) займати весь простір */
+  flex-direction: column; /* Якщо сторінка має власну структуру */
+  overflow-y: auto; /* Додає скрол, якщо контент сторінки більший за екран */
+  width: 100%;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+/* Посилання */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
 }

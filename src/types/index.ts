@@ -24,6 +24,3 @@ export interface GameStateType {
   gamePhase: GamePhase;
   message: string;
 }
-
-// Якщо проблема "is not a module" зберігається, додайте цей рядок в кінці:
-// export {};

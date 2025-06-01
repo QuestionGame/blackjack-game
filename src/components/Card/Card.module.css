@@ -1,0 +1,59 @@
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes flipIn { /* Проста анімація перевороту (можна ускладнити) */
+  from {
+    transform: rotateY(90deg) scaleX(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0deg) scaleX(1);
+    opacity: 1;
+  }
+}
+
+.card {
+  width: 85px; /* Трохи збільшимо карти */
+  height: 120px;
+  margin: 5px 8px; /* Збільшимо відступи */
+  border-radius: 8px; /* Більш заокруглені */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative; /* Для можливих внутрішніх анімацій або ефектів */
+  animation: fadeInCard 0.4s ease-out forwards; /* Анімація появи */
+  /* transition: transform 0.3s ease; -- для ефектів при наведенні */
+}
+
+/* .card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+} */
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Змінено на cover для заповнення */
+}
+
+.hidden {
+  /* background-color: #555; -- тепер це робиться через img */
+  border: 2px solid #444;
+  /* Анімація перевороту при появі сорочки (якщо карта була прихована і стає видимою) */
+  /* animation: flipIn 0.5s ease-out forwards; */
+}
+
+.hidden .cardImage { /* Зображення сорочки */
+    /* Стилі для сорочки, якщо потрібно відрізняти від лицьової */
+}

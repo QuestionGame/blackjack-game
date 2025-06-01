@@ -1,0 +1,40 @@
+.nav {
+  background-color: #343a40; /* Темний фон */
+  padding: 0.75rem 1rem;
+  margin-bottom: 2rem; /* Відступ від контенту */
+  border-radius: 0 0 8px 8px; /* Закруглення знизу */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Центруємо посилання */
+  align-items: center;
+}
+
+.navItem {
+  margin: 0 1rem; /* Відступи між посиланнями */
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.75); /* Світлий колір для тексту */
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+.navLink:hover {
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navLink.active {
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #007bff; /* Колір для активного посилання */
+}

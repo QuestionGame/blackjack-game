@@ -1,4 +1,4 @@
-import { Suit, Rank } from '../types'; // Додаємо імпорт, щоб точно зробити файл модулем
+import { Suit, Rank } from '../types';
 
 export const SUITS: Suit[] = ['♠', '♣', '♥', '♦'];
 export const RANKS: Rank[] = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -11,5 +11,10 @@ export const RANK_VALUES: { [key in Rank]: number } = {
 export const BLACKJACK_VALUE = 21;
 export const DEALER_STAND_SCORE = 17;
 
-// Якщо проблема "is not a module" зберігається, додайте цей рядок в кінці:
-// export {};
+// Мапінг для імен файлів зображень карт
+export const RANK_TO_IMAGE_CHAR: { [key in Rank]: string } = {
+  'A': 'A', 'K': 'K', 'Q': 'Q', 'J': 'J', '10': '10', '9': '9', '8': '8', '7': '7', '6': '6', '5': '5', '4': '4', '3': '3', '2': '2'
+};
+export const SUIT_TO_IMAGE_CHAR: { [key in Suit]: string } = {
+  '♠': 'S', '♣': 'C', '♥': 'H', '♦': 'D'
+};
