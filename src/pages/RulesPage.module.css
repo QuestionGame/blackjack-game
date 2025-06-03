@@ -13,7 +13,7 @@
   /* Для того, щоб сторінка правил займала весь екран, якщо контенту мало: */
   display: flex; 
   flex-direction: column;
-  /* min-height: calc(100vh - 80px); -- Приблизна висота мінус навігація, якщо вона є зверху */
+ 
 }
 .backButton {
   display: inline-block;
@@ -29,7 +29,30 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
+/* Псевдоелемент для фону з градієнтом поверх зображення */
+.rulesContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/public/cards/background/casino_blur.jpg'); /* Шлях від папки public */
+  background-size: cover;
+  background-position: center;
+  z-index: -2; /* Позаду основного контенту та градієнту */
+  
+}
+.rulesContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.85)); /* Затемнюючий градієнт */
+  z-index: -1; /* Між фоновим зображенням та контентом */
+}
 .backButton:hover {
   background-color: #5a6268;
 }

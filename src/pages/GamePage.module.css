@@ -10,3 +10,11 @@
   transition: background-color 0.5s ease;
   overflow: hidden; /* Щоб GameTable не викликав скрол на цьому рівні */
 }
+.gameTable {
+  width: 100%; /* Займає всю ширину контейнера */
+  height: 100%; /* Займає всю висоту контейнера */
+  display: flex;
+  flex-direction: column; /* Якщо потрібно, щоб елементи всередині були вертикально */
+  align-items: center; /* Центрування елементів всередині */
+  justify-content: center; /* Центрування елементів всередині */
+}

@@ -1,85 +1,105 @@
+/* src/components/GameTable/GameTable.module.css */
 .gameTable {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%; /* Займає всю висоту батьківського .gamePageWrapper */
-  padding: 1.5rem; /* Внутрішні відступи для контенту столу */
-  padding-top: 60px; /* Додаємо відступ зверху для кнопки "На Головну" */
-  position: relative; /* Для можливого позиціонування елементів */
-  /* Тіні та інші ефекти казино можна додати сюди або на .gamePageWrapper */
-  box-shadow: inset 0 0 100px rgba(0,0,0,0.4); /* Внутрішня тінь для глибини */
-}
-
-.dealerArea {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 1rem; /* Відступ зверху для руки дилера */
-  /* margin-bottom: auto; -- можна прибрати, якщо justify-content: space-between працює добре */
-}
-
-.playerArea {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1rem; /* Відступ знизу для руки гравця */
-  /* margin-top: auto; -- можна прибрати */
-}
-
-.tableCenter {
-  flex-grow: 1; /* Займає простір між руками дилера та гравця */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Тут можна розмістити логотип казино, фішки, колоду тощо */
-}
-
-.deckImage { /* Якщо ви додасте зображення колоди */
-  width: 90px;
-  height: auto;
-  opacity: 0.9;
-  margin: 1rem;
-  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-}
-
-.actionsWrapper {
-  width: 100%;
-  margin-top: 1rem;
-  padding-bottom: 1rem; /* Відступ знизу для кнопок */
-  z-index: 10; /* Щоб кнопки були поверх інших елементів столу */
-}
-
-.dealerArea > div, /* Звертаємося до .handContainer всередині */
-.playerArea > div {
-  width: 100%;
-  max-width: 600px; 
+  height: 100%;
+  padding: 1rem;
+  padding-top: 70px; /* Для кнопки "На Головну" та scoreboard */
+  position: relative;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.4);
+  overflow: hidden;
 }
 
 .leaveGameButton {
   position: absolute;
   top: 15px;
   left: 15px;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem; /* Трохи збільшив */
   font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
-  background-color: rgba(108, 117, 125, 0.8);
+  background-color: rgba(80, 80, 80, 0.7); /* Трохи темніший для кращого контрасту */
   border: none;
   border-radius: 20px;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-  z-index: 30;
+  z-index: 50; /* Вищий z-index */
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .leaveGameButton:hover {
-  background-color: rgba(90, 98, 104, 0.9);
+  background-color: rgba(60, 60, 60, 0.9);
   transform: scale(1.05);
 }
 
 .leaveGameButton:active {
   transform: scale(1);
+}
+
+.overallScoreboard {
+  position: absolute;
+  top: 15px; 
+  right: 15px; 
+  background-color: rgba(20, 20, 20, 0.75); /* Більш контрастний фон */
+  color: #f0f0f0; /* Світліший текст */
+  padding: 10px 18px; /* Збільшив падінги */
+  border-radius: 8px; /* Менш круглий, більш плаский */
+  font-size: 1em; /* Збільшив шрифт */
+  font-weight: bold;
+  z-index: 50; /* Вищий z-index */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center; /* Вирівнювання по центру */
+}
+
+.scoreSeparator {
+  margin: 0 0.75rem; /* Збільшив проміжок */
+  color: #aaa; /* Колір роздільника */
+  font-weight: normal;
+}
+
+.dealerArea {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem; /* Трохи зменшив, бо є загальний padding-top */
+  flex-shrink: 0;
+}
+
+.playerArea {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.tableCenter {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.actionsWrapper {
+  width: 100%;
+  padding-bottom: 0.5rem;
+  z-index: 10;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; 
+}
+
+.dealerArea > div,
+.playerArea > div {
+  width: 100%;
+  max-width: 600px; 
 }

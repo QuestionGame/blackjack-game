@@ -1,10 +1,11 @@
 .actionsContainer {
-  margin-top: 25px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 15px; /* Збільшений проміжок */
   padding: 15px;
   flex-wrap: wrap; /* Дозволяє кнопкам переноситись на малих екранах */
+  
 }
 
 .actionButton {

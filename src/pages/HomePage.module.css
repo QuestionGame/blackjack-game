@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('C:\Users\Zheka\OneDrive\Desktop\blackjack\blackjack-game\public\cards\background\casino_blur.jpg'); /* Шлях від папки public */
+  background-image: url('/public/cards/background/casino_blur.jpg'); /* Шлях від папки public */
   background-size: cover;
   background-position: center;
   z-index: -2; /* Позаду основного контенту та градієнту */

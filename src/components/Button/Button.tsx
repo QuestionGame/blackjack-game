@@ -23,4 +23,4 @@ const Button: React.FC<ButtonProps> = ({ children, onClick, disabled }) => {
   );
 };
 
-export default Button; // <--- ОСЬ ЦЕЙ РЯДОК ВАЖЛИВИЙ!
+export default Button;

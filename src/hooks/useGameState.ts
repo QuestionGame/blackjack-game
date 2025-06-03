@@ -1,10 +1,16 @@
+// src/hooks/useGameState.ts
 import { useState, useEffect, useCallback } from 'react';
 import { CardType, GameStateType, GamePhase, PlayerHandType } from '../types';
 import { BLACKJACK_VALUE, DEALER_STAND_SCORE } from '../constants';
 import { createDeck, shuffleDeck, dealCardFromDeck } from '../gameLogic/deck';
 import { calculateHandValue } from '../gameLogic/scoring';
 
-const initialState: GameStateType = {
+const initialWinsState = {
+  playerWins: parseInt(localStorage.getItem('blackjackPlayerWins') || '0', 10),
+  dealerWins: parseInt(localStorage.getItem('blackjackDealerWins') || '0', 10),
+};
+
+const initialStateBase: Omit<GameStateType, 'playerWins' | 'dealerWins'> = { // Базовий стан без лічильників
   deck: [],
   playerHand: [],
   dealerHand: [],
@@ -14,20 +20,27 @@ const initialState: GameStateType = {
   message: 'Натисніть "Нова гра" для початку.',
 };
 
-// Експортуємо тип для значення, яке повертає хук
 export type UseGameStateHookType = ReturnType<typeof useGameState>;
 
 export const useGameState = () => {
-  // ... (весь попередній код useGameState залишається тут без змін) ...
-  // Я не буду його дублювати тут, щоб зекономити місце, він був правильним.
-  // Просто переконайтесь, що функція useGameState визначена як і раніше.
-  const [deck, setDeck] = useState<CardType[]>(initialState.deck);
-  const [playerHand, setPlayerHand] = useState<PlayerHandType>(initialState.playerHand);
-  const [dealerHand, setDealerHand] = useState<PlayerHandType>(initialState.dealerHand);
-  const [playerScore, setPlayerScore] = useState<number>(initialState.playerScore);
-  const [dealerScore, setDealerScore] = useState<number>(initialState.dealerScore);
-  const [gamePhase, setGamePhase] = useState<GamePhase>(initialState.gamePhase);
-  const [message, setMessage] = useState<string>(initialState.message);
+  const [deck, setDeck] = useState<CardType[]>(initialStateBase.deck);
+  const [playerHand, setPlayerHand] = useState<PlayerHandType>(initialStateBase.playerHand);
+  const [dealerHand, setDealerHand] = useState<PlayerHandType>(initialStateBase.dealerHand);
+  const [playerScore, setPlayerScore] = useState<number>(initialStateBase.playerScore);
+  const [dealerScore, setDealerScore] = useState<number>(initialStateBase.dealerScore);
+  const [gamePhase, setGamePhase] = useState<GamePhase>(initialStateBase.gamePhase);
+  const [message, setMessage] = useState<string>(initialStateBase.message);
+  
+  const [playerWins, setPlayerWins] = useState<number>(initialWinsState.playerWins);
+  const [dealerWins, setDealerWins] = useState<number>(initialWinsState.dealerWins);
+
+  useEffect(() => {
+    localStorage.setItem('blackjackPlayerWins', playerWins.toString());
+  }, [playerWins]);
+
+  useEffect(() => {
+    localStorage.setItem('blackjackDealerWins', dealerWins.toString());
+  }, [dealerWins]);
 
   const startGame = useCallback(() => {
     let newDeck = shuffleDeck(createDeck());
@@ -54,20 +67,23 @@ export const useGameState = () => {
     setPlayerScore(pScoreInitial);
     setDealerScore(dScoreInitial);
     
-    if (pScoreInitial === BLACKJACK_VALUE && dScoreInitial === BLACKJACK_VALUE) {
+    if (pScoreInitial === BLACKJACK_VALUE) {
+      if (dScoreInitial === BLACKJACK_VALUE) {
         setMessage('Нічия! У обох Блекджек!');
-        setGamePhase('gameOver');
-    } else if (pScoreInitial === BLACKJACK_VALUE) {
+      } else {
         setMessage('Блекджек! Ви виграли!');
-        setGamePhase('gameOver');
+        setPlayerWins(prev => prev + 1);
+      }
+      setGamePhase('gameOver');
     } else if (dScoreInitial === BLACKJACK_VALUE) {
-        setMessage('Дилер має Блекджек! Ви програли.');
-        setGamePhase('gameOver');
+      setMessage('Дилер має Блекджек! Ви програли.');
+      setDealerWins(prev => prev + 1);
+      setGamePhase('gameOver');
     } else {
-        setGamePhase('playerTurn');
-        setMessage('Ваш хід. Взяти карту чи зупинитись?');
+      setGamePhase('playerTurn');
+      setMessage('Ваш хід. Взяти карту чи зупинитись?');
     }
-  }, []);
+  }, [setPlayerWins, setDealerWins]); // Додано залежності, хоча вони стабільні
 
   const playerHit = useCallback(() => {
     if (gamePhase !== 'playerTurn' || !deck.length) return;
@@ -80,12 +96,13 @@ export const useGameState = () => {
 
     if (newScore > BLACKJACK_VALUE) {
       setMessage('Перебір! Ви програли.');
+      setDealerWins(prev => prev + 1);
       setGamePhase('gameOver');
     } else if (newScore === BLACKJACK_VALUE) {
         setMessage('21! Ваш хід завершено. Хід дилера...');
         setGamePhase('dealerTurn'); 
     }
-  }, [deck, playerHand, gamePhase]);
+  }, [deck, playerHand, gamePhase, setDealerWins]);
 
   const playerStand = useCallback(() => {
     if (gamePhase !== 'playerTurn') return;
@@ -95,6 +112,8 @@ export const useGameState = () => {
 
   useEffect(() => {
     if (gamePhase === 'dealerTurn') {
+      if (playerScore > BLACKJACK_VALUE) return; // Гравець вже перебрав
+
       let currentDealerHand = [...dealerHand]; 
       let currentDeck = [...deck]; 
       let currentDealerScore = calculateHandValue(currentDealerHand);
@@ -118,10 +137,13 @@ export const useGameState = () => {
 
         if (tempDealerScore > BLACKJACK_VALUE) {
           setMessage('Дилер перебрав! Ви виграли!');
+          setPlayerWins(prev => prev + 1);
         } else if (playerScore > tempDealerScore) {
           setMessage('Ви виграли!');
+          setPlayerWins(prev => prev + 1);
         } else if (tempDealerScore > playerScore) {
           setMessage('Дилер виграв.');
+          setDealerWins(prev => prev + 1);
         } else { 
           setMessage('Нічия!');
         }
@@ -130,19 +152,20 @@ export const useGameState = () => {
 
       return () => clearTimeout(dealerPlayTimeout);
     }
-  }, [gamePhase, dealerHand, playerScore, deck]);
+  }, [gamePhase, dealerHand, playerScore, deck, setPlayerWins, setDealerWins]);
 
   return {
+    deck,
     playerHand,
     dealerHand,
     playerScore,
     dealerScore,
     gamePhase,
     message,
+    playerWins,
+    dealerWins,
     startGame,
     playerHit,
     playerStand,
-    // Не забудьте повернути всі необхідні поля
-    deck // Повертаємо колоду, якщо вона десь потрібна (може і ні)
   };
 };

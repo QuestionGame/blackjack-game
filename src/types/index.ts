@@ -23,4 +23,6 @@ export interface GameStateType {
   dealerScore: number;
   gamePhase: GamePhase;
   message: string;
+  playerWins: number; 
+  dealerWins: number; 
 }
