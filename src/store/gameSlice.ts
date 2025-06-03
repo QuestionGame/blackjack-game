@@ -1,9 +1,14 @@
 // src/store/gameSlice.ts
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'; // ДОДАНО PayloadAction
 import { PlayerHandType, GameStateType } from '../types';
 import { BLACKJACK_VALUE, DEALER_STAND_SCORE } from '../constants';
 import { createDeck, shuffleDeck, dealCardFromDeck } from '../gameLogic/deck';
 import { calculateHandValue } from '../gameLogic/scoring';
+
+// --- ДОДАНО: Розширення типу стану ---
+export interface GameStateTypeExtended extends GameStateType {
+  playerName: string | null;
+}
 
 // Функція для завантаження лічильників виграшів з localStorage
 const loadWinsFromStorage = () => {
@@ -20,23 +25,43 @@ const saveWinsToStorage = (playerWins: number, dealerWins: number) => {
 
 const initialWins = loadWinsFromStorage();
 
-const initialState: GameStateType = {
+// --- ДОДАНО: Додаємо playerName до initialState ---
+const initialState: GameStateTypeExtended = {
   deck: [],
   playerHand: [],
   dealerHand: [],
   playerScore: 0,
   dealerScore: 0,
   gamePhase: 'initial',
-  message: 'Натисніть "Почати гру" на головній сторінці.',
+  message: 'Введіть ім\'я та почніть гру!',
   playerWins: initialWins.playerWins,
   dealerWins: initialWins.dealerWins,
+  playerName: localStorage.getItem('blackjackPlayerName') || null,
 };
 
 const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
+    // --- ДОДАНО: setPlayerName ---
+    setPlayerName: (state, action: PayloadAction<string>) => {
+      state.playerName = action.payload;
+      localStorage.setItem('blackjackPlayerName', action.payload);
+      if (state.gamePhase === 'initial' && action.payload.trim() !== '') {
+        state.message = `Вітаємо, ${action.payload}! Натисніть "Почати Нову Гру".`;
+      } else if (state.gamePhase === 'initial' && action.payload.trim() === '') {
+        state.playerName = null;
+        localStorage.removeItem('blackjackPlayerName');
+        state.message = 'Введіть ім\'я та почніть гру!';
+      }
+    },
     startGame: (state) => {
+      // --- ДОДАНО: Перевірка наявності імені ---
+      if (!state.playerName) {
+        state.message = 'Будь ласка, спочатку введіть своє ім\'я на головній сторінці.';
+        state.gamePhase = 'initial';
+        return;
+      }
       let newDeck = shuffleDeck(createDeck());
       let newPlayerHand: PlayerHandType = [];
       let newDealerHand: PlayerHandType = [];
@@ -65,7 +90,7 @@ const gameSlice = createSlice({
         if (dScoreInitial === BLACKJACK_VALUE) {
           state.message = 'Нічия! У обох Блекджек!';
         } else {
-          state.message = 'Блекджек! Ви виграли!';
+          state.message = `Блекджек! ${state.playerName || 'Ви'} виграли!`;
           state.playerWins += 1;
           saveWinsToStorage(state.playerWins, state.dealerWins);
         }
@@ -77,7 +102,7 @@ const gameSlice = createSlice({
         state.gamePhase = 'gameOver';
       } else {
         state.gamePhase = 'playerTurn';
-        state.message = 'Ваш хід. Взяти карту чи зупинитись?';
+        state.message = `${state.playerName || 'Ваш'} хід. Взяти карту чи зупинитись?`;
       }
     },
     playerHit: (state) => {
@@ -90,12 +115,12 @@ const gameSlice = createSlice({
       state.playerScore = newScore;
 
       if (newScore > BLACKJACK_VALUE) {
-        state.message = 'Перебір! Ви програли.';
+        state.message = `${state.playerName || 'Гравець'} перебрав! Ви програли.`;
         state.dealerWins += 1;
         saveWinsToStorage(state.playerWins, state.dealerWins);
         state.gamePhase = 'gameOver';
       } else if (newScore === BLACKJACK_VALUE) {
-        state.message = '21! Ваш хід завершено. Хід дилера...';
+        state.message = `21, ${state.playerName || 'Гравець'}! Ваш хід завершено. Хід дилера...`;
         state.gamePhase = 'dealerTurn'; 
       }
     },
@@ -124,16 +149,16 @@ const gameSlice = createSlice({
       state.deck = tempDeck;
 
       if (tempDealerScore > BLACKJACK_VALUE) {
-        state.message = 'Дилер перебрав! Ви виграли!';
+        state.message = `Дилер перебрав! ${state.playerName || 'Гравець'}, ви виграли!`;
         state.playerWins += 1;
       } else if (state.playerScore > tempDealerScore) {
-        state.message = 'Ви виграли!';
+        state.message = `${state.playerName || 'Гравець'}, ви виграли!`;
         state.playerWins += 1;
       } else if (tempDealerScore > state.playerScore) {
-        state.message = 'Дилер виграв.';
+        state.message = `Дилер виграв. ${state.playerName || 'Гравець'}, ви програли.`;
         state.dealerWins += 1;
       } else { 
-        state.message = 'Нічия!';
+        state.message = `Нічия, ${state.playerName || 'Гравець'}!`;
       }
       saveWinsToStorage(state.playerWins, state.dealerWins);
       state.gamePhase = 'gameOver';
@@ -148,6 +173,7 @@ const gameSlice = createSlice({
 });
 
 export const { 
+  setPlayerName, // ДОДАНО
   startGame, 
   playerHit, 
   playerStand, 
@@ -157,14 +183,17 @@ export const {
 
 export default gameSlice.reducer;
 
-// Селектори
-export const selectGameState = (state: { game: GameStateType }) => state.game;
-export const selectGamePhase = (state: { game: GameStateType }) => state.game.gamePhase;
-export const selectPlayerHand = (state: { game: GameStateType }) => state.game.playerHand;
-export const selectDealerHand = (state: { game: GameStateType }) => state.game.dealerHand;
-export const selectPlayerScore = (state: { game: GameStateType }) => state.game.playerScore;
-export const selectDealerScore = (state: { game: GameStateType }) => state.game.dealerScore;
-export const selectMessage = (state: { game: GameStateType }) => state.game.message;
-export const selectPlayerWins = (state: { game: GameStateType }) => state.game.playerWins;
-export const selectDealerWins = (state: { game: GameStateType }) => state.game.dealerWins;
-export const selectDeck = (state: { game: GameStateType }) => state.game.deck;
+// --- ДОДАНО: Селектор для імені гравця ---
+export const selectPlayerName = (state: { game: GameStateTypeExtended }) => state.game.playerName;
+
+// ОНОВЛЕНО: Селектори для нового типу стану
+export const selectGameState = (state: { game: GameStateTypeExtended }) => state.game;
+export const selectGamePhase = (state: { game: GameStateTypeExtended }) => state.game.gamePhase;
+export const selectPlayerHand = (state: { game: GameStateTypeExtended }) => state.game.playerHand;
+export const selectDealerHand = (state: { game: GameStateTypeExtended }) => state.game.dealerHand;
+export const selectPlayerScore = (state: { game: GameStateTypeExtended }) => state.game.playerScore;
+export const selectDealerScore = (state: { game: GameStateTypeExtended }) => state.game.dealerScore;
+export const selectMessage = (state: { game: GameStateTypeExtended }) => state.game.message;
+export const selectPlayerWins = (state: { game: GameStateTypeExtended }) => state.game.playerWins;
+export const selectDealerWins = (state: { game: GameStateTypeExtended }) => state.game.dealerWins;
+export const selectDeck = (state: { game: GameStateTypeExtended }) => state.game.deck;

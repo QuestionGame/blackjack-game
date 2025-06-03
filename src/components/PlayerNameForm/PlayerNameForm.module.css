@@ -1,0 +1,69 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.1); /* Легкий фон */
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 350px;
+}
+
+.label {
+  font-size: 1.1rem;
+  color: #f0f0f0; /* Світлий текст для темного фону HomePage */
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.input {
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Округлий інпут */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #ffc107; /* Золотистий при фокусі */
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+  outline: none;
+}
+
+.errorMessage {
+  color: #ff4d4d; /* Червоний для помилок */
+  font-size: 0.85rem;
+  margin-top: -0.5rem; /* Щоб був ближче до інпуту */
+  margin-bottom: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.submitButton {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+  background-color: #17a2b8; /* Бірюзовий */
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #138496;
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  background-color: #6c757d;
+  opacity: 0.65;
+  cursor: not-allowed;
+}

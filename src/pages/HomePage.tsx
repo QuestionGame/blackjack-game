@@ -1,18 +1,19 @@
 // src/pages/HomePage.tsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'; // Імпортуємо хуки Redux
-import { startGame } from '../store/gameSlice'; // Імпортуємо екшен та селектор
-import type { AppDispatch } from '../store'; // Імпортуємо типи для dispatch та state
+import { useDispatch, useSelector } from 'react-redux';
+import { startGame, selectPlayerName, selectMessage } from '../store/gameSlice'; // Додаємо selectPlayerName, selectMessage
+import type { AppDispatch } from '../store';
+import PlayerNameForm from '../components/PlayerNameForm/PlayerNameForm'; // Імпортуємо форму
 import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch(); // Отримуємо функцію dispatch
+  const dispatch: AppDispatch = useDispatch();
+  const playerName = useSelector(selectPlayerName); // Отримуємо ім'я гравця
+  const message = useSelector(selectMessage); // Отримуємо повідомлення для відображення
 
   const handleStartNewGame = () => {
-    // Можна перевіряти gamePhase перед тим, як диспатчити startGame,
-    // але сам редьюсер startGame вже обробляє ініціалізацію
     dispatch(startGame());
     navigate('/game');
   };
@@ -21,21 +22,36 @@ const HomePage: React.FC = () => {
     <div className={styles.homeContainer}>
       <header className={styles.header}>
         <h1 className={styles.title}>Ласкаво просимо до Блекджеку!</h1>
+        {playerName && <p className={styles.greeting}>Вітаємо, {playerName}!</p>}
         <p className={styles.subtitle}>Перевірте свою удачу та стратегію</p>
       </header>
-      
-      <nav className={styles.navigation}>
-        <button onClick={handleStartNewGame} className={`${styles.navButton} ${styles.playButton}`}>
-          Почати Нову Гру
-        </button>
-        <Link to="/rules" className={styles.navButton}>
-          Правила Гри
-        </Link>
-        <Link to="/settings" className={styles.navButton}>
-          Налаштування
-        </Link>
-      </nav>
-
+      <div className={styles.mainContentFlex}>
+        <div className={styles.formWrapper}>
+          <PlayerNameForm />
+        </div>
+        <div className={styles.buttonsWrapper}>
+          {/* Повідомлення над кнопками */}
+          {message && (message.startsWith('Введіть') || message.startsWith('Вітаємо')) && 
+            <p className={styles.infoMessage}>{message}</p>
+          }
+          <nav className={styles.navigation}>
+            <button 
+              onClick={handleStartNewGame} 
+              className={`${styles.navButton} ${styles.playButton}`}
+              disabled={!playerName}
+              title={!playerName ? "Будь ласка, введіть та збережіть ім'я" : "Почати гру"}
+            >
+              Почати Нову Гру
+            </button>
+            <Link to="/rules" className={styles.navButton}>
+              Правила Гри
+            </Link>
+            <Link to="/settings" className={styles.navButton}>
+              Налаштування
+            </Link>
+          </nav>
+        </div>
+      </div>
       <section className={styles.rulesPreview}>
         <h2>Коротко про правила:</h2>
         <p>Мета – набрати 21 очко або більше, ніж у дилера, не перевищивши 21. Туз може бути 1 або 11. Картинки – 10 очок.</p>

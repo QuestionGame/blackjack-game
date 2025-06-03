@@ -10,9 +10,10 @@ import {
   selectGamePhase,
   selectPlayerWins,
   selectDealerWins,
-  startGame, // Для скидання гри при виході
-  dealerPlay, // Для запуску ходу дилера
-  resetWinCounters, // Додаємо екшен
+  startGame,
+  dealerPlay,
+  resetWinCounters,
+  selectPlayerName, // Додаємо селектор для імені гравця
 } from '../../store/gameSlice';
 import type { AppDispatch } from '../../store';
 import { useSettings } from '../../context/SettingsContext'; // Залишаємо, якщо налаштування не в Redux
@@ -32,6 +33,7 @@ const GameTable: React.FC = () => {
   const gamePhase = useSelector(selectGamePhase);
   const playerWins = useSelector(selectPlayerWins);
   const dealerWins = useSelector(selectDealerWins);
+  const playerName = useSelector(selectPlayerName); // Отримуємо ім'я гравця
 
   const { settings } = useSettings(); // Налаштування (сорочка, колір столу)
 
@@ -107,7 +109,7 @@ const GameTable: React.FC = () => {
 
       <div className={styles.playerArea}>
         <Hand 
-          title="Гравець" 
+          title={playerName ? `${playerName}` : "Гравець"} // Використовуємо ім'я гравця
           hand={playerHand} // З Redux store
           score={playerScore} // З Redux store
           cardBackUrl={settings.cardBack} 
