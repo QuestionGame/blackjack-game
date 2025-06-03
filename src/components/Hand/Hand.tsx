@@ -1,3 +1,4 @@
+// src/components/Hand/Hand.tsx
 import React from 'react';
 import { PlayerHandType, CardType } from '../../types';
 import Card from '../Card/Card';
@@ -8,8 +9,8 @@ interface HandProps {
   hand: PlayerHandType;
   score: number;
   isDealer?: boolean;
-  gamePhase?: string;
-  cardBackUrl: string; // Додано для передачі в Card
+  gamePhase?: string; // Для логіки приховування карт
+  cardBackUrl: string; 
 }
 
 const Hand: React.FC<HandProps> = ({ title, hand, score, isDealer = false, gamePhase, cardBackUrl }) => {
@@ -32,7 +33,6 @@ const Hand: React.FC<HandProps> = ({ title, hand, score, isDealer = false, gameP
             cardBackUrl={cardBackUrl}
           />
         ))}
-        {/* Якщо рука дилера і перша карта прихована, і карт більше немає (показати місце для другої) */}
         {isDealer && shouldHideFirstDealerCard && hand.length === 1 && (
           <Card isHidden={true} cardBackUrl={cardBackUrl} />
         )}

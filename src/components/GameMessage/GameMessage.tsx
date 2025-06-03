@@ -1,13 +1,17 @@
+// src/components/GameMessage/GameMessage.tsx
 import React from 'react';
-import { useGame } from '../../context/GameContext';
+import { useSelector } from 'react-redux';
+import { selectMessage, selectGamePhase } from '../../store/gameSlice'; // Імпортуємо селектори
+// import type { RootState } from '../../store';
 import styles from './GameMessage.module.css';
 
 const GameMessage: React.FC = () => {
-  const { message, gamePhase } = useGame();
+  const message = useSelector(selectMessage); // Отримуємо message зі store
+  const gamePhase = useSelector(selectGamePhase); // Отримуємо gamePhase для стилізації
 
   if (!message) return null;
 
-  let messageTypeClass = styles.info; // Default
+  let messageTypeClass = styles.info;
   if (gamePhase === 'gameOver') {
     if (message.toLowerCase().includes('виграли') || message.toLowerCase().includes('блекджек!')) {
       messageTypeClass = styles.success;
@@ -18,8 +22,6 @@ const GameMessage: React.FC = () => {
     }
   }
 
-  // Додаємо key, щоб React перемонтовував компонент при зміні повідомлення,
-  // що перезапустить CSS анімацію
   return (
     <div key={message} className={`${styles.messageContainer} ${messageTypeClass}`}>
       <p>{message}</p>
@@ -27,4 +29,4 @@ const GameMessage: React.FC = () => {
   );
 };
 
-export default GameMessage; 
+export default GameMessage;

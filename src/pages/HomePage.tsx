@@ -1,21 +1,19 @@
+// src/pages/HomePage.tsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGame } from '../context/GameContext'; // Для скидання/початку гри
-import styles from './HomePage.module.css'; // Створимо цей файл
+import { useDispatch } from 'react-redux'; // Імпортуємо хуки Redux
+import { startGame } from '../store/gameSlice'; // Імпортуємо екшен та селектор
+import type { AppDispatch } from '../store'; // Імпортуємо типи для dispatch та state
+import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { startGame, gamePhase } = useGame(); // Отримуємо startGame з GameContext
+  const dispatch: AppDispatch = useDispatch(); // Отримуємо функцію dispatch
 
   const handleStartNewGame = () => {
-    // Переконуємося, що нова гра починається при переході
-    if (gamePhase === 'gameOver' || gamePhase === 'initial') {
-      startGame();
-    } else {
-      // Якщо гра вже йде, можливо, запитати підтвердження або просто почати нову
-      // Для простоти зараз просто починаємо нову
-      startGame();
-    }
+    // Можна перевіряти gamePhase перед тим, як диспатчити startGame,
+    // але сам редьюсер startGame вже обробляє ініціалізацію
+    dispatch(startGame());
     navigate('/game');
   };
 
