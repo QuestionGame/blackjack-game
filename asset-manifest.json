@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/blackjack-game/static/css/main.b2cdf28c.css",
-    "main.js": "/blackjack-game/static/js/main.713ef3ab.js",
+    "main.js": "/blackjack-game/static/js/main.c7c615cc.js",
     "static/media/casino_blur.jpg": "/blackjack-game/static/media/casino_blur.ffd5e94c2635ae880f9b.jpg",
     "index.html": "/blackjack-game/index.html",
     "main.b2cdf28c.css.map": "/blackjack-game/static/css/main.b2cdf28c.css.map",
-    "main.713ef3ab.js.map": "/blackjack-game/static/js/main.713ef3ab.js.map"
+    "main.c7c615cc.js.map": "/blackjack-game/static/js/main.c7c615cc.js.map"
   },
   "entrypoints": [
     "static/css/main.b2cdf28c.css",
-    "static/js/main.713ef3ab.js"
+    "static/js/main.c7c615cc.js"
   ]
 }
