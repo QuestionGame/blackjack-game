@@ -5,12 +5,12 @@ import styles from './SettingsPage.module.css';
 
 // Варіанти сорочок карт
 const cardBackOptions = [
-  { name: 'Червона Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/red_back.png' },
-  { name: 'Синя Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/blue_back.png' },
-  { name: 'Сіра Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/gray_back.png' },
-  { name: 'Зелена Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/green_back.png' },
-  { name: 'Жовта Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/yellow_back.png' },
-  { name: 'Фіолетова Сорочка', value: process.env.PUBLIC_URL + '/cards/backs/purple_back.png' },
+  { name: 'Червона Сорочка', value: '/cards/backs/red_back.png' },
+  { name: 'Синя Сорочка', value: '/cards/backs/blue_back.png' },
+  { name: 'Сіра Сорочка', value: '/cards/backs/gray_back.png' },
+  { name: 'Зелена Сорочка', value: '/cards/backs/green_back.png' },
+  { name: 'Жовта Сорочка', value: '/cards/backs/yellow_back.png' },
+  { name: 'Фіолетова Сорочка', value: '/cards/backs/purple_back.png' },
 ];
 
 // Варіанти кольору столу
@@ -39,7 +39,11 @@ const SettingsPage: React.FC = () => {
               onClick={() => setCardBack(option.value)}
               title={option.name}
             >
-              <img src={option.value} alt={option.name} className={styles.optionPreviewImage} />
+              <img
+                src={process.env.PUBLIC_URL + option.value}
+                alt={option.name}
+                className={styles.optionPreviewImage}
+              />
               <span>{option.name}</span>
             </button>
           ))}

@@ -11,13 +11,12 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ card, isHidden = false, cardBackUrl }) => {
   if (isHidden || !card) {
-    // Додаємо process.env.PUBLIC_URL для коректного шляху на GitHub Pages
     const backToShow =
       cardBackUrl
         ? (cardBackUrl.startsWith('http') ? cardBackUrl : process.env.PUBLIC_URL + cardBackUrl)
         : process.env.PUBLIC_URL + '/cards/backs/red_back.png';
     return (
-      <div className={`${styles.card} ${styles.hidden}`}>
+      <div className={`${styles.card} ${styles.hidden}`} style={{ border: '2px solid red' }}>
         <img src={backToShow} alt="Card Back" className={styles.cardImage} />
       </div>
     );
