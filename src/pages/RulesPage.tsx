@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Імпортуємо useNavigate
-import styles from './RulesPage.module.css';
+import { useNavigate } from 'react-router-dom';
+import styles from './RulesPage.module.css'; 
 
 const RulesPage: React.FC = () => {
   const navigate = useNavigate(); // Ініціалізуємо хук
